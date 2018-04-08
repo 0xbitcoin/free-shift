@@ -109,6 +109,11 @@
                     <input class="input" v-model="bidTokenGive" placeholder="ether amount">
                   </div>
 
+                  <div class="input-container">
+                    <div class="label">Ratio</div>
+                    <div placeholder="0">{{ bidRatioCalculated }}</div>
+                  </div>
+
                   <a class="button is-primary btn-bid-order">Place Bid</a>
                 </div>
 
@@ -134,7 +139,7 @@
                                 <tr    v-for="(item, index) in asks.ask_list" v-bind:data-orderhash="item.order_hash" v-bind:class="{   'trading-row':true, 'order-row':true, 'acts-as-link':true , 'unable': item.client_unable } " >
                                   <td class="order-row-cell amount-get">{{item.amount_give_formatted}}</td>
                                   <td class="order-row-cell amount-give">{{item.amount_get_formatted}}</td>
-                                  <td class="order-row-cell cost-ratio">{{item.cost_ratio}}</td>
+                                  <td class="order-row-cell cost-ratio">{{item.cost_ratio_formatted}}</td>
                                 </tr>
                               </tbody>
                               </table>
@@ -163,6 +168,11 @@
                     <input class="input" v-model="askTokenGet" placeholder="ether amount">
                   </div>
 
+                  <div class="input-container">
+                    <div class="label">Ratio</div>
+                    <div placeholder="0">{{ askRatioCalculated }}</div>
+                  </div>
+
                   <a class="button is-primary btn-ask-order">Place Ask</a>
                 </div>
 
@@ -189,7 +199,7 @@
                       <tr  v-for="(item, index) in bids.bid_list" v-bind:data-orderhash="item.order_hash" v-bind:class="{   'trading-row':true, 'order-row':true, 'acts-as-link':true , 'unable': item.client_unable } " >
                         <td class="order-row-cell amount-get">{{item.amount_get_formatted}}</td>
                         <td class="order-row-cell amount-give">{{item.amount_give_formatted}}</td>
-                        <td class="order-row-cell cost-ratio">{{item.cost_ratio}}</td>
+                        <td class="order-row-cell cost-ratio">{{item.cost_ratio_formatted}}</td>
                       </tr>
                     </tbody>
                     </table>
@@ -231,7 +241,7 @@
                     <tr class="order-row monitor-order-row acts-as-link"   v-for="(item, index) in orders.order_list" v-bind:data-orderhash="item.order_hash" >
                       <td class="order-row-cell amount-get">{{item.amount_get_formatted}}</td>
                       <td class="order-row-cell amount-give">{{item.amount_give_formatted}}</td>
-                      <td class="order-row-cell cost-ratio">{{item.cost_ratio}}</td>
+                      <td class="order-row-cell cost-ratio">{{item.cost_ratio_formatted}}</td>
                     </tr>
                   </tbody>
                   </table>
@@ -243,7 +253,7 @@
 
 
               <div class="column">
-                <!--
+                
                 <div class="subtitle color-primary">Recent Trades</div>
 
 
@@ -261,13 +271,13 @@
                     <tr class="order-row  monitor-trades-row acts-as-link"   v-for="(item, index) in trades.trade_list" v-bind:data-orderhash="item.order_hash" >
                       <td class="order-row-cell amount-get">{{item.amount_get}}</td>
                       <td class="order-row-cell amount-give">{{item.amount_give}}</td>
-                      <td class="order-row-cell cost-ratio">{{item.cost_ratio}}</td>
+                      <td class="order-row-cell cost-ratio">{{item.cost_ratio_formatted}}</td>
                     </tr>
                   </tbody>
                   </table>
 
                 </div>
-                  -->
+                
 
               </div>
 

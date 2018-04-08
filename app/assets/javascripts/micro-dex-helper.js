@@ -34,6 +34,12 @@ var secondary_asset_address;
 var client_token_balances = {};
 
 
+// need to find a better place for this
+function formatCostRatio(ratio) {
+  return ratio.toFixed(7)
+}
+
+
 export default class MicroDexHelper {
 
 
@@ -171,10 +177,10 @@ export default class MicroDexHelper {
          el: '#order-form',
          data: {
 
-           bidTokenGet: 0,
-           bidTokenGive: 0,
-           askTokenGet: 0,
-           askTokenGive: 0,
+           bidTokenGet: undefined,
+           bidTokenGive: undefined,
+           askTokenGet: undefined,
+           askTokenGive: undefined,
 
            asks: {ask_list:order_ask_list},
            bids: {bid_list:order_bid_list}
@@ -185,7 +191,30 @@ export default class MicroDexHelper {
             update: function () {
 
             }
-          }
+          },
+          computed: {
+            // a computed getter
+            bidRatioCalculated: function () {
+              if(this.bidTokenGet == 0
+                || this.bidTokenGet == undefined
+                || this.bidTokenGive == undefined) {
+                var num = 0;
+              } else {
+                var num = this.bidTokenGive/this.bidTokenGet;
+              }
+              return formatCostRatio(num);
+            },
+            askRatioCalculated: function () {
+              if(this.askTokenGet == 0
+                || this.askTokenGet == undefined
+                || this.askTokenGive == undefined) {
+                var num = 0;
+              } else {
+                var num = this.askTokenGive/this.askTokenGet;
+              }
+              return formatCostRatio(num);
+            },
+          },
        });
 
        await this.loadOrderEvents()
@@ -510,6 +539,7 @@ export default class MicroDexHelper {
       order_element.amount_give_formatted = this.formatAmountWithDecimals(order_element.amount_give,give_decimal_places);
 
       order_element.cost_ratio = order_element.amount_give_formatted / order_element.amount_get_formatted;
+      order_element.cost_ratio_formatted = formatCostRatio(order_element.cost_ratio);
 
     }
 
@@ -526,6 +556,7 @@ export default class MicroDexHelper {
       order_element.amount_give_formatted = this.formatAmountWithDecimals(order_element.amount_give,give_decimal_places);
 
       order_element.cost_ratio = order_element.amount_get_formatted / order_element.amount_give_formatted;
+      order_element.cost_ratio_formatted = formatCostRatio(order_element.cost_ratio);
 
     }
 
@@ -859,10 +890,10 @@ export default class MicroDexHelper {
   //should be using approve and call!!!
   async ApproveAndCallDepositToken(tokenAddress,amountFormatted,tokenDecimals,callback)
   {
-     console.log('deposit token',tokenAddress,amountRaw);
 
      var amountRaw = this.getRawFromDecimalFormat(amountFormatted,tokenDecimals)
 
+     console.log('deposit token',tokenAddress,amountRaw);
 
      var remoteCallData = '0x01';
 
